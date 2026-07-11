@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canções Para Um Novo Mundo — Gê</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #FAF8F4;
+            --text: #1A1A1A;
+            --accent: #C8B37A;
+            --gray: #6E6E6E;
+            --line: #E7E2D8;
+            --hero-bg: #0D0D0D;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.7;
+            letter-spacing: 0.01em;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Menu */
+        .menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 24px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .menu.scrolled {
+            background: rgba(250, 248, 244, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 16px 48px;
+        }
+
+        .menu a {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.6s ease;
+        }
+
+        .menu.scrolled a {
+            color: var(--gray);
+        }
+
+        .menu a:hover {
+            color: var(--accent);
+        }
+
+        .menu-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            min-height: 700px;
+            background: var(--hero-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-video-container video,
+        .hero-video-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center center;
+            opacity: 0.5;
+            background: #0D0D0D;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 100%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            padding: 0 24px;
+            max-width: 900px;
+        }
+
+        .hero-content h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: clamp(48px, 8vw, 84px);
+            color: #fff;
+            line-height: 1.1;
+            letter-spacing: -0.01em;
+            margin-bottom: 24px;
+            opacity: 0;
+            animation: fadeInUp 1.8s ease 0.3s forwards;
+        }
+
+        .hero-content .subtitle {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: clamp(14px, 2vw, 18px);
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeInUp 1.8s ease 0.6s forwards;
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 48px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            opacity: 0;
+            animation: fadeIn 2s ease 1.5s forwards;
+        }
+
+        .hero-scroll span {
+            display: block;
+            width: 1px;
+            height: 60px;
+            background: rgba(255,255,255,0.3);
+            margin: 0 auto 12px;
+        }
+
+        .hero-scroll p {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* Sections */
+        section {
+            padding: 180px 48px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-narrow {
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: clamp(36px, 5vw, 56px);
+            line-height: 1.15;
+            margin-bottom: 50px;
+            color: var(--text);
+        }
+
+        h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+            font-size: clamp(24px, 3vw, 32px);
+            line-height: 1.25;
+            margin-bottom: 30px;
+            color: var(--text);
+        }
+
+        p {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: clamp(18px, 2vw, 21px);
+            line-height: 1.8;
+            color: var(--text);
+            margin-bottom: 30px;
+        }
+
+        p:last-child {
+            margin-bottom: 0;
+        }
+
+        .text-gray {
+            color: var(--gray);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        /* Divider */
+        .divider {
+            width: 40px;
+            height: 1px;
+            background: var(--line);
+            margin: 0 auto;
+        }
+
+        /* Full-width image */
+        .image-full {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .image-full img {
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            object-fit: contain;
+            object-position: center center;
+            display: block;
+            background: var(--bg);
+        }
+
+        .image-caption {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 13px;
+            color: var(--gray);
+            letter-spacing: 0.05em;
+            padding: 20px 48px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Artist section */
+        .artist-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 180px 48px;
+        }
+
+        .artist-section img {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+        }
+
+        .artist-text {
+            padding-right: 40px;
+        }
+
+        /* Percurso */
+        .percurso-item {
+            margin-bottom: 100px;
+        }
+
+        .percurso-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .percurso-item h3 {
+            margin-bottom: 24px;
+        }
+
+        .percurso-item p {
+            margin-bottom: 20px;
+        }
+
+        .percurso-item .text-gray {
+            margin-bottom: 16px;
+        }
+
+        /* Production list */
+        .production-list {
+            list-style: none;
+            padding: 0;
+            margin: 40px 0;
+        }
+
+        .production-list li {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 17px;
+            line-height: 2.2;
+            color: var(--text);
+            padding-left: 0;
+            position: relative;
+        }
+
+        .production-list li::before {
+            content: "";
+            display: inline-block;
+            width: 20px;
+            height: 1px;
+            background: var(--accent);
+            vertical-align: middle;
+            margin-right: 16px;
+            opacity: 0.5;
+        }
+
+        /* Videos */
+        .videos-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 180px 48px;
+        }
+
+        .video-item {
+            margin-bottom: 120px;
+        }
+
+        .video-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            background: var(--hero-bg);
+            overflow: hidden;
+        }
+
+        .video-container video,
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-label {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-top: 30px;
+        }
+
+        .video-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: 32px;
+            margin-top: 12px;
+            color: var(--text);
+        }
+
+        /* Gallery */
+        .gallery-section {
+            padding: 0;
+            max-width: none;
+        }
+
+        .gallery-image {
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        .gallery-image img {
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            object-fit: contain;
+            object-position: center center;
+            display: block;
+            background: var(--bg);
+        }
+
+        /* Contact */
+        .contact-section {
+            padding: 180px 48px;
+            max-width: 760px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-section h2 {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .contact-info {
+            margin-bottom: 60px;
+        }
+
+        .contact-info h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: var(--text);
+        }
+
+        .contact-detail {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 17px;
+            line-height: 2.4;
+            color: var(--text);
+        }
+
+        .contact-detail a {
+            color: var(--text);
+            text-decoration: none;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 2px;
+            transition: border-color 0.4s ease, color 0.4s ease;
+        }
+
+        .contact-detail a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            margin-top: 50px;
+        }
+
+        .social-links a {
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.4s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Closing quote */
+        .closing {
+            padding: 200px 48px 160px;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .closing p {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-style: italic;
+            font-size: clamp(32px, 5vw, 52px);
+            line-height: 1.3;
+            color: var(--text);
+            margin-bottom: 0;
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 48px;
+            text-align: center;
+            border-top: 1px solid var(--line);
+        }
+
+        footer p {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            font-size: 13px;
+            color: var(--gray);
+            letter-spacing: 0.05em;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1.2s ease, transform 1.2s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .artist-section {
+                grid-template-columns: 1fr;
+                gap: 60px;
+                padding: 120px 24px;
+            }
+
+            .artist-section img {
+                height: 400px;
+            }
+
+            .artist-text {
+                padding-right: 0;
+            }
+
+            section {
+                padding: 120px 24px;
+            }
+
+            .menu {
+                padding: 16px 24px;
+            }
+
+            .menu-links {
+                gap: 24px;
+            }
+
+            .image-full img,
+            .gallery-image img {
+                height: 60vh;
+            }
+
+            .videos-section {
+                padding: 120px 24px;
+            }
+
+            .contact-section {
+                padding: 120px 24px;
+            }
+
+            .closing {
+                padding: 140px 24px 100px;
+            }
+
+            .social-links {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu -->
+    <nav class="menu" id="menu">
+        <a href="#top" style="font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 16px; letter-spacing: 0.02em; text-transform: none;">Gê</a>
+        <div class="menu-links">
+            <a href="#concerto">Concerto</a>
+            <a href="#artista">Artista</a>
+            <a href="#percurso">Percurso</a>
+            <a href="#videos">Vídeos</a>
+            <a href="#galeria">Galeria</a>
+            <a href="#contato">Contato</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="top">
+        <div class="hero-video-container">
+            <video autoplay muted loop playsinline poster="piano vazio.jpg">
+                <source src="https://www.dropbox.com/scl/fi/a4qlzzu7zsnlhqfdm0ie9/VIDEO-COMPPING-OK-4-JULHO-EPK.mp4?rlkey=0ouhvl3u7fu56iwltynr05ci5&st=6uq05dv0&raw=1" type="video/mp4">
+            </video>
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Canções Para<br>Um Novo Mundo</h1>
+            <p class="subtitle">Concerto para voz, piano e paisagens sonoras</p>
+        </div>
+        <div class="hero-scroll">
+            <span></span>
+            <p>Rolar</p>
+        </div>
+    </section>
+
+    <!-- O Concerto -->
+    <section id="concerto">
+        <div class="section-narrow">
+            <p class="section-label">O Concerto</p>
+            <h2>Mais do que um recital, uma experiência de escuta.</h2>
+            <p>Entre seu universo autoral e interpretações cuidadosamente escolhidas, Gê conduz o público por um percurso em que música, palavra e silêncio se articulam com naturalidade, revelando diferentes atmosferas e formas de escuta.</p>
+            <p>O resultado é um concerto cuidadosamente desenhado, em que cada escolha sonora nasce da própria canção. Piano, voz, guitarra, bass synth e discretas paisagens sonoras integram uma narrativa musical coesa, conduzindo o público por uma experiência de escuta atenta e sensível.</p>
+        </div>
+    </section>
+
+    <!-- Foto: Piano vazio -->
+    <div class="image-full">
+        <img src="piano vazio.jpg" alt="Piano vazio no palco">
+    </div>
+    <p class="image-caption">O palco antes do concerto</p>
+
+    <!-- O Artista -->
+    <section class="artist-section" id="artista">
+        <div class="artist-text">
+            <p class="section-label">O Artista</p>
+            <h2>Gê</h2>
+            <p>Cantor, compositor, produtor musical e diretor artístico, Gê desenvolve um trabalho voltado à canção brasileira contemporânea, aproximando composição, interpretação e produção musical em uma linguagem autoral.</p>
+            <p>Em sua trajetória, assinou produções para diferentes artistas e lançou, ao lado de Ney Matogrosso, o álbum <em>Canções Para Um Novo Mundo</em>, trabalho que amplia sua pesquisa sobre a canção como espaço de encontro entre música, palavra e escuta.</p>
+            <p>Também integra a Rio Bronx, ao lado de Will Calhoun (Living Colour), Marcos Suzano e Marcelinho da Lua. A banda se apresenta no Rock in Rio 2026 e prepara o lançamento de seu primeiro single, gravado com a participação especial do guitarrista norte-americano Mike Stern.</p>
+            <p style="margin-top: 40px; color: var(--gray); font-size: 16px;">Neste concerto, reúne essa experiência em uma apresentação construída a partir da escuta e da força narrativa de cada canção.</p>
+        </div>
+        <img src="cantando atrás da tampa.jpg" alt="Gê cantando atrás da tampa do piano">
+    </section>
+
+    <!-- Foto: Mãos no piano -->
+    <div class="image-full">
+        <img src="mãos no piano.jpg" alt="Mãos sobre as teclas do piano">
+    </div>
+    <p class="image-caption">A escuta nas mãos</p>
+
+    <!-- Percurso -->
+    <section id="percurso">
+        <div class="section-narrow">
+            <p class="section-label">Percurso</p>
+            <h2>Trajetória</h2>
+
+            <div class="percurso-item fade-in">
+                <h3>Canções Para Um Novo Mundo</h3>
+                <p>Álbum lançado em parceria com Ney Matogrosso, pela Som Livre, reunindo composições autorais e interpretações que ampliam o diálogo entre tradição e contemporaneidade na canção brasileira.</p>
+                <div style="margin-top: 60px;">
+                    <a href="https://ads.somlivre.com.br/Cancoes_Para_Um_Novo_Mundo" target="_blank" style="text-decoration: none; display: block;">
+                        <img src="CAPA OFICIAL 2026.jpg" alt="Capa do álbum Canções Para Um Novo Mundo - Ney Matogrosso e Guilherme Gê" style="width: 100%; max-width: 600px; display: block; margin: 0 auto; transition: opacity 0.6s ease;">
+                    </a>
+                    <p style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--gray); letter-spacing: 0.05em;">Ney Matogrosso, Hecto & Guilherme Gê — <a href="https://ads.somlivre.com.br/Cancoes_Para_Um_Novo_Mundo" target="_blank" style="color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 1px; transition: opacity 0.4s ease;">Canções Para Um Novo Mundo</a></p>
+                </div>
+            </div>
+
+            <div class="percurso-item fade-in">
+                <h3>Rio Bronx</h3>
+                <p>Projeto formado por Gê, Will Calhoun (Living Colour), Marcos Suzano e Marcelinho da Lua. A banda se apresenta no Rock in Rio 2026 e prepara o lançamento de seu primeiro single, gravado com a participação especial do guitarrista norte-americano Mike Stern.</p>
+            </div>
+
+            <div class="percurso-item fade-in">
+                <h3>Produção Musical</h3>
+                <p>Produziu o álbum <em>A Delicadeza do Instante</em>, da cantora japonesa Toyono, em uma produção remota Rio–Tóquio, com participações de Leila Pinheiro e Roberto Menescal.</p>
+                <p>Desde 2012, produz grande parte das músicas dos álbuns de Sérgio Britto (Titãs).</p>
+                <p>Entre produções, gravações e apresentações, trabalhou com nomes como Tom Zé, Frejat, Fernanda Abreu, Paulo Miklos, Paulinho Moska, Ana Cañas, Marcos Valle, Lenine, Roberto Menescal, Egberto Gismonti, Jards Macalé, Roberta Sá e Pepeu Gomes, entre outros.</p>
+            </div>
+
+            <div class="percurso-item fade-in">
+                <h3>Composição</h3>
+                <p>Como compositor, possui parcerias com Paulo Sérgio Valle, Roberto Menescal, Vitor Ramil, Sérgio Britto, Mauro Santa Cecília e Allan Dias Castro.</p>
+                <p>Também participou da criação de trilhas sonoras originais para cinema, teatro e documentários, incluindo trabalhos com direção de Gerald Thomas.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vídeos -->
+    <section class="videos-section" id="videos">
+        <p class="section-label">Vídeos</p>
+        <h2 style="margin-bottom: 80px;">Registros</h2>
+
+        <div class="video-item fade-in">
+            <div class="video-container">
+                <video controls poster="foto3.jpg">
+                    <source src="https://www.dropbox.com/scl/fi/a4qlzzu7zsnlhqfdm0ie9/VIDEO-COMPPING-OK-4-JULHO-EPK.mp4?rlkey=0ouhvl3u7fu56iwltynr05ci5&st=6uq05dv0&raw=1" type="video/mp4">
+                </video>
+            </div>
+            <p class="video-label">Trailer Oficial</p>
+            <p class="video-title">Apresentação do concerto</p>
+        </div>
+
+        <div class="video-item fade-in">
+            <div class="video-container">
+                <video controls poster="bastidor.jpg">
+                    <source src="https://www.dropbox.com/scl/fi/ctmiv3nahpcl0fjj9ls2w/VIDEO-MASTER-OK-INTERP-10-JUNHO.mp4?rlkey=v8amfltif5b5kjfpzh99naqah&st=5a23gczt&raw=1" type="video/mp4">
+                </video>
+            </div>
+            <p class="video-label">Trecho do Concerto</p>
+            <p class="video-title">Registro ao vivo da apresentação</p>
+        </div>
+    </section>
+
+    <!-- Galeria -->
+    <section class="gallery-section" id="galeria">
+        <div class="gallery-image">
+            <img src="foto2.jpg" alt="Gê no palco">
+        </div>
+        <div class="gallery-image">
+            <img src="foto6.jpg" alt="Momento do concerto">
+        </div>
+        <div class="gallery-image">
+            <img src="bastidor.jpg" alt="Bastidor da gravação">
+        </div>
+        <div class="gallery-image">
+            <img src="caminhando após a apresentação.jpg" alt="Após o espetáculo">
+        </div>
+    </section>
+
+    <!-- Contato -->
+    <section class="contact-section" id="contato">
+        <p class="section-label">Contato</p>
+        <h2>Produção Executiva</h2>
+
+        <div class="contact-info">
+            <h3>Déa Moura</h3>
+            <div class="contact-detail">
+                <p><a href="tel:+5521994236979">+55 21 99423-6979</a></p>
+                <p><a href="mailto:showsguilhermege@gmail.com">showsguilhermege@gmail.com</a></p>
+            </div>
+        </div>
+
+        <div class="divider" style="margin: 60px auto;"></div>
+
+        <div class="social-links">
+            <a href="https://instagram.com/guilhermegeoficial" target="_blank">Instagram</a>
+            <a href="https://facebook.com/guilherme.ge" target="_blank">Facebook</a>
+        </div>
+    </section>
+
+    <!-- Frase final -->
+    <section class="closing">
+        <p>Cada escolha sonora nasce da própria canção.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Gê — Canções Para Um Novo Mundo</p>
+    </footer>
+
+    <script>
+        // Menu scroll effect
+        const menu = document.getElementById('menu');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                menu.classList.add('scrolled');
+            } else {
+                menu.classList.remove('scrolled');
+            }
+        });
+
+        // Fade in on scroll
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        fadeElements.forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
